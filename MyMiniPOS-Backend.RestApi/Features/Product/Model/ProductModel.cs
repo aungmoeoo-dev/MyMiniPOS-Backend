@@ -16,7 +16,7 @@ public class ProductModel
 	[Column("ProductCategoryId")]
 	public string? CategoryId { get; set; }
 	[Column("ProductPrice")]
-	public decimal Price { get; set; }
+	public decimal? Price { get; set; }
 	[Column("ProductDiscountRate")]
-	public decimal DiscountRate { get; set; }
+	public decimal? DiscountRate { get; set; }
 }

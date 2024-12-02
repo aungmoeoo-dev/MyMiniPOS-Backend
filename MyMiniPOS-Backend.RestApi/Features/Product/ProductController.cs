@@ -26,12 +26,32 @@ public class ProductController : ControllerBase
 	}
 
 	[HttpGet]
-	public async Task<IActionResult> GetProducts([FromQuery] int page, [FromQuery]int limit)
+	public async Task<IActionResult> GetProducts([FromQuery] int page, [FromQuery]int limit, [FromQuery] string category)
 	{
-		Console.WriteLine("MyParams" + page + limit);
 
 		var products = await _productService.GetProducts(page, limit);
 
 		return Ok(products);
+	}
+
+	[HttpGet("{id}")]
+	public async Task<IActionResult> GetProduct([FromBody] string id)
+	{
+		var product = await _productService.GetProduct(id);
+
+		if (product is null) return NotFound(product);
+
+		return Ok(product);
+	}
+
+	[HttpPatch("{id}")]
+	public async Task<IActionResult> UpdateProduct(string id, [FromBody] ProductModel requestModel)
+	{
+		requestModel.Id = id;
+		var responseModel = await _productService.UpdateProduct(requestModel);
+
+		if(!responseModel.IsSuccessful) return NotFound(responseModel);
+
+		return Ok(responseModel);
 	}
 }
