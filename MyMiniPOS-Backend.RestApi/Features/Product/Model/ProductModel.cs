@@ -7,10 +7,16 @@ namespace MyMiniPOS_Backend.RestApi.Features.Product.Model;
 public class ProductModel
 {
     [Key]
-    public Guid ProductId { get; set; }
-    public string? ProductName { get; set; }
-    public string? ProductImageUrl { get; set; }
-    public Guid ProductCategoryId { get; set; }
-    public decimal ProductPrice { get; set; }
-    public decimal ProductDiscountRate { get; set; }
+    [Column("ProductId")]
+    public string? Id { get; set; }
+	[Column("ProductName")]
+	public string? Name { get; set; }
+	[Column("ProductImageUrl")]
+	public string? ImageUrl { get; set; }
+	[Column("ProductCategoryId")]
+	public string? CategoryId { get; set; }
+	[Column("ProductPrice")]
+	public decimal Price { get; set; }
+	[Column("ProductDiscountRate")]
+	public decimal DiscountRate { get; set; }
 }

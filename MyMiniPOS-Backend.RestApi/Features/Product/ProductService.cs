@@ -15,7 +15,7 @@ public class ProductService
 
 	public async Task<ProductResponseModel> CreateProduct(ProductModel requestModel)
 	{
-		requestModel.ProductId = Guid.NewGuid();
+		requestModel.Id = Guid.NewGuid().ToString();
 		_db.Products.Add(requestModel);
 		int result = await _db.SaveChangesAsync();
 
@@ -32,7 +32,12 @@ public class ProductService
 
 	public async Task<List<ProductModel>> GetProducts(int page, int limit)
 	{
-		var products =  await _db.Products.Skip(page * limit).Take(limit).ToListAsync();
+		Console.WriteLine("MyParams" + page.ToString() + limit);
+		var products = await _db.Products
+			.OrderBy(x => x.Id)
+			.Skip((page - 1) * limit)
+			.Take(limit)
+			.ToListAsync();
 
 		return products;
 	}

@@ -25,8 +25,11 @@ public class ProductController : ControllerBase
 		return Created("this is url", responseModel);
 	}
 
-	public async Task<IActionResult> GetProducts([FromQuery] int page, int limit)
+	[HttpGet]
+	public async Task<IActionResult> GetProducts([FromQuery] int page, [FromQuery]int limit)
 	{
+		Console.WriteLine("MyParams" + page + limit);
+
 		var products = await _productService.GetProducts(page, limit);
 
 		return Ok(products);
