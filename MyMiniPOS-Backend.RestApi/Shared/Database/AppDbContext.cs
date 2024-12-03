@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using MyMiniPOS_Backend.RestApi.Features.Category.Model;
 using MyMiniPOS_Backend.RestApi.Features.Product.Model;
 
 namespace MyMiniPOS_Backend.RestApi.Shared.Database;
@@ -25,4 +26,5 @@ public class AppDbContext : DbContext
 	}
 
 	public DbSet<ProductModel> Products { get; set; }
+	public DbSet<CategoryModel> Categories { get; set; }
 }
