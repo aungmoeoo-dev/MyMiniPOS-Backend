@@ -9,8 +9,8 @@ public class CategoryModel
 	[Key]
 	[Column("CategoryId")]
 	public string? Id { get; set; }
-	[Column("CategoryId")]
+	[Column("CategoryName")]
 	public string? Name { get; set; }
-	[Column("CategoryId")]
+	[Column("CategoryDescription")]
 	public string? Description { get; set; }
 }

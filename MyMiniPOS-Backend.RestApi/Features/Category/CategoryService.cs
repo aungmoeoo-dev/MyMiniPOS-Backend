@@ -14,16 +14,18 @@ public class CategoryService
 
 	public async Task<CategoryResponseModel> CreateCategory(CategoryModel requestModel)
 	{
-		CategoryResponseModel responseModel = new CategoryResponseModel();
+		CategoryResponseModel responseModel = new();
 
 		if (requestModel.Name is null)
 		{
+			responseModel.IsSuccessful = false;
 			responseModel.Status = CategoryResponseStatus.Fail;
 			responseModel.Message = "Require request information";
 
 			return responseModel;
 		}
 
+		requestModel.Id = Guid.NewGuid().ToString();
 		_db.Categories.Add(requestModel);
 		int result = await _db.SaveChangesAsync();
 
@@ -32,6 +34,7 @@ public class CategoryService
 
 		string message = result > 0 ? "Saving successful." : "Saving failed";
 
+		responseModel.IsSuccessful = result > 0;
 		responseModel.Status = status;
 		responseModel.Message = message;
 

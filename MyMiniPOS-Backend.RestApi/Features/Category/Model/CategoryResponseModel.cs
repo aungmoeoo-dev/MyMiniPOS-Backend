@@ -1,4 +1,6 @@
-﻿namespace MyMiniPOS_Backend.RestApi.Features.Category.Model;
+﻿using System.Text.Json.Serialization;
+
+namespace MyMiniPOS_Backend.RestApi.Features.Category.Model;
 
 public enum CategoryResponseStatus
 {
@@ -10,6 +12,8 @@ public enum CategoryResponseStatus
 
 public class CategoryResponseModel
 {
+	public bool IsSuccessful { get; set; }
+	[JsonIgnore]
 	public CategoryResponseStatus Status { get; set; }
 	public string? Message { get; set; }
 }
