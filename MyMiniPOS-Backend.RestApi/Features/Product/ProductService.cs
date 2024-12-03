@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyMiniPOS_Backend.RestApi.Features.Product.Model;
 using MyMiniPOS_Backend.RestApi.Shared.Database;
+using MyMiniPOS_Backend.RestApi.Shared.Model;
 
 namespace MyMiniPOS_Backend.RestApi.Features.Product;
 
@@ -24,29 +25,30 @@ public class ProductService
 		ProductResponseModel responseModel = new()
 		{
 			IsSuccessful = result > 0,
+			Status = result > 0 ? ProductResponseStatus.Created : ProductResponseStatus.Fail,
 			Message = message
 		};
 
 		return responseModel;
 	}
 
-	public async Task<List<ProductModel>> GetProducts(int page, int limit)
+	public async Task<List<ProductModel>> GetProducts(PaginationModel paginationModel)
 	{
 		var products = await _db.Products
 			.OrderBy(x => x.Id)
-			.Skip((page - 1) * limit)
-			.Take(limit)
+			.Skip((paginationModel.Page - 1) * paginationModel.Limit)
+			.Take(paginationModel.Limit)
 			.ToListAsync();
 
 		return products;
 	}
 
-	public async Task<List<ProductModel>> GetProductsByCategory(int page, int limit, string category)
+	public async Task<List<ProductModel>> GetProductsByCategory(PaginationModel paginationModel, string category)
 	{
 		var products = await _db.Products
 			.OrderBy(x => x.CategoryId)
-			.Skip((page - 1) * limit)
-			.Take(limit)
+			.Skip((paginationModel.Page - 1) * paginationModel.Limit)
+			.Take(paginationModel.Limit)
 			.ToListAsync();
 
 		return products;
@@ -68,6 +70,7 @@ public class ProductService
 		if (product is null)
 		{
 			responseModel.IsSuccessful = false;
+			responseModel.Status = ProductResponseStatus.NotFound;
 			responseModel.Message = "No data found.";
 			return responseModel;
 		}
@@ -103,6 +106,7 @@ public class ProductService
 		string message = result > 0 ? "Updating successful." : "Updating failed.";
 
 		responseModel.IsSuccessful = result > 0;
+		responseModel.Status = result > 0 ? ProductResponseStatus.Successful : ProductResponseStatus.Fail;
 		responseModel.Message = message;
 		return responseModel;
 	}
@@ -115,6 +119,7 @@ public class ProductService
 		if(product is null)
 		{
 			responseModel.IsSuccessful = false;
+			responseModel.Status = ProductResponseStatus.NotFound;
 			responseModel.Message = "No data found.";
 
 			return responseModel;
@@ -126,6 +131,8 @@ public class ProductService
 		string message = result > 0 ? "Deleting successful." : "Deleting failed.";
 
 		responseModel.IsSuccessful = result > 0;
+		responseModel.Status = result > 0
+			? ProductResponseStatus.Successful : ProductResponseStatus.Fail;
 		responseModel.Message = message;
 
 		return responseModel;

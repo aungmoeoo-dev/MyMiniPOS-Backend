@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyMiniPOS_Backend.RestApi.Features.Product.Model;
+using MyMiniPOS_Backend.RestApi.Shared.Model;
 
 namespace MyMiniPOS_Backend.RestApi.Features.Product;
 
@@ -20,16 +21,16 @@ public class ProductController : ControllerBase
 	{
 		var responseModel = await _productService.CreateProduct(requestModel);
 
-		if (!responseModel.IsSuccessful) return BadRequest(responseModel);
+		if (responseModel.Status == ProductResponseStatus.Fail) return BadRequest(responseModel);
 
 		return Created("this is url", responseModel);
 	}
 
 	[HttpGet]
-	public async Task<IActionResult> GetProducts([FromQuery] int page, [FromQuery]int limit, [FromQuery] string category)
+	public async Task<IActionResult> GetProducts([FromQuery] PaginationModel paginationModel, [FromQuery] string category)
 	{
 
-		var products = await _productService.GetProducts(page, limit);
+		var products = await _productService.GetProducts(paginationModel);
 
 		return Ok(products);
 	}
@@ -50,7 +51,9 @@ public class ProductController : ControllerBase
 		requestModel.Id = id;
 		var responseModel = await _productService.UpdateProduct(requestModel);
 
-		if(!responseModel.IsSuccessful) return NotFound(responseModel);
+		if(responseModel.Status == ProductResponseStatus.NotFound) return NotFound(responseModel);
+
+		if(responseModel.Status == ProductResponseStatus.Fail) return BadRequest(responseModel);
 
 		return Ok(responseModel);
 	}
@@ -60,7 +63,9 @@ public class ProductController : ControllerBase
 	{
 		var responseModel = await _productService.DeleteProduct(id);
 
-		if(!responseModel.IsSuccessful) return NotFound(responseModel);
+		if (responseModel.Status == ProductResponseStatus.NotFound) return NotFound(responseModel);
+
+		if (responseModel.Status == ProductResponseStatus.Fail) return BadRequest(responseModel);
 
 		return Ok(responseModel);
 	}
