@@ -106,4 +106,28 @@ public class ProductService
 		responseModel.Message = message;
 		return responseModel;
 	}
+
+	public async Task<ProductResponseModel> DeleteProduct(string id)
+	{
+		ProductResponseModel responseModel = new();
+		var product = await GetProduct(id);
+
+		if(product is null)
+		{
+			responseModel.IsSuccessful = false;
+			responseModel.Message = "No data found.";
+
+			return responseModel;
+		}
+
+		_db.Entry(product).State = EntityState.Deleted;
+		int result = await _db.SaveChangesAsync();
+
+		string message = result > 0 ? "Deleting successful." : "Deleting failed.";
+
+		responseModel.IsSuccessful = result > 0;
+		responseModel.Message = message;
+
+		return responseModel;
+	}
 }
