@@ -25,7 +25,6 @@ public class ProductService
 		ProductResponseModel responseModel = new()
 		{
 			IsSuccessful = result > 0,
-			Status = result > 0 ? ProductResponseStatus.Created : ProductResponseStatus.Fail,
 			Message = message
 		};
 
@@ -70,7 +69,6 @@ public class ProductService
 		if (product is null)
 		{
 			responseModel.IsSuccessful = false;
-			responseModel.Status = ProductResponseStatus.NotFound;
 			responseModel.Message = "No data found.";
 			return responseModel;
 		}
@@ -106,7 +104,6 @@ public class ProductService
 		string message = result > 0 ? "Updating successful." : "Updating failed.";
 
 		responseModel.IsSuccessful = result > 0;
-		responseModel.Status = result > 0 ? ProductResponseStatus.Successful : ProductResponseStatus.Fail;
 		responseModel.Message = message;
 		return responseModel;
 	}
@@ -119,7 +116,6 @@ public class ProductService
 		if(product is null)
 		{
 			responseModel.IsSuccessful = false;
-			responseModel.Status = ProductResponseStatus.NotFound;
 			responseModel.Message = "No data found.";
 
 			return responseModel;
@@ -131,8 +127,6 @@ public class ProductService
 		string message = result > 0 ? "Deleting successful." : "Deleting failed.";
 
 		responseModel.IsSuccessful = result > 0;
-		responseModel.Status = result > 0
-			? ProductResponseStatus.Successful : ProductResponseStatus.Fail;
 		responseModel.Message = message;
 
 		return responseModel;

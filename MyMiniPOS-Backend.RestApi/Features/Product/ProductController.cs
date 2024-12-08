@@ -21,7 +21,7 @@ public class ProductController : ControllerBase
 	{
 		var responseModel = await _productService.CreateProduct(requestModel);
 
-		if (responseModel.Status == ProductResponseStatus.Fail) return BadRequest(responseModel);
+		if (!responseModel.IsSuccessful) return BadRequest(responseModel);
 
 		return Created("this is url", responseModel);
 	}
@@ -51,9 +51,7 @@ public class ProductController : ControllerBase
 		requestModel.Id = id;
 		var responseModel = await _productService.UpdateProduct(requestModel);
 
-		if(responseModel.Status == ProductResponseStatus.NotFound) return NotFound(responseModel);
-
-		if(responseModel.Status == ProductResponseStatus.Fail) return BadRequest(responseModel);
+		if(!responseModel.IsSuccessful) return BadRequest(responseModel);
 
 		return Ok(responseModel);
 	}
@@ -63,9 +61,7 @@ public class ProductController : ControllerBase
 	{
 		var responseModel = await _productService.DeleteProduct(id);
 
-		if (responseModel.Status == ProductResponseStatus.NotFound) return NotFound(responseModel);
-
-		if (responseModel.Status == ProductResponseStatus.Fail) return BadRequest(responseModel);
+		if (!responseModel.IsSuccessful) return BadRequest(responseModel);
 
 		return Ok(responseModel);
 	}
