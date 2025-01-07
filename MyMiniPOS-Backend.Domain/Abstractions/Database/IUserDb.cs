@@ -1,14 +1,9 @@
 ﻿using MyMiniPOS_Backend.Domain.Entities;
 using MyMiniPOS_Backend.Domain.Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MyMiniPOS_Backend.Domain.Abstractions.Repositories;
+namespace MyMiniPOS_Backend.Domain.Abstractions.Database;
 
-public interface IUserRepository
+public interface IUserDb
 {
 	public Task<Result<UserEntity>> FindUserByEmail(string message);
 	public Task<Result<UserEntity>> InsertUser(UserEntity userEntity);

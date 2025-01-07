@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MyMiniPOS_Backend.Database;
 using MyMiniPOS_Backend.Database.Repositories;
-using MyMiniPOS_Backend.Domain.Abstractions.Repositories;
+using MyMiniPOS_Backend.Domain.Abstractions.Database;
 using MyMiniPOS_Backend.Domain.Abstractions.Services;
 using MyMiniPOS_Backend.Domain.Features.Auth;
 using MyMiniPOS_Backend.MinimalApi.Features.Auth;
@@ -22,7 +22,7 @@ builder.Services.AddDbContext<AppDbContext>(optionsBuilder =>
 });
 
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserDb, UserDb>();
 
 var app = builder.Build();
 

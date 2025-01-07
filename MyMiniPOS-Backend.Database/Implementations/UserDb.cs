@@ -1,15 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyMiniPOS_Backend.Database.Tables;
-using MyMiniPOS_Backend.Domain.Abstractions.Repositories;
+using MyMiniPOS_Backend.Domain.Abstractions.Database;
 using MyMiniPOS_Backend.Domain.Entities;
 using MyMiniPOS_Backend.Domain.Shared;
 
 namespace MyMiniPOS_Backend.Database.Repositories;
 
-public class UserRepository : IUserRepository
+public class UserDb : IUserDb
 {
 	private AppDbContext _context;
-	public UserRepository(AppDbContext context)
+	public UserDb(AppDbContext context)
 	{
 		_context = context;
 	}
