@@ -14,18 +14,17 @@ public class UserDb : IUserDb
 		_context = context;
 	}
 
-	public async Task<Result<UserEntity>> FindUserByEmail(string email)
+	public async Task<Result<UserEntity>> FindUserByUsername(string username)
 	{
 		try
 		{
-			var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+			var user = await _context.Users.FirstOrDefaultAsync(x => x.Username == username);
 			if (user is null) return Error.NotFound();
 
 			UserEntity userEntity = new()
 			{
 				Id = user.Id,
 				Username = user.Username,
-				Email = user.Email,
 				Password = user.Password
 			};
 
@@ -44,7 +43,6 @@ public class UserDb : IUserDb
 		{
 			Id = userEntity.Id,
 			Username = userEntity.Username,
-			Email = userEntity.Email,
 			Password = userEntity.Password
 		};
 
