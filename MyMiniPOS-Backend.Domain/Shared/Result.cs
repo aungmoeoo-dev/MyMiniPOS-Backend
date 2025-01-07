@@ -8,7 +8,7 @@ public class Result<T>
 
 	public Error Error { get; set; }
 
-	public bool IsSuccess => Error is null;
+	public bool IsSuccess => Error == Error.None;
 	public bool IsFailure => !IsSuccess;
 
 	public static implicit operator Result<T>(T data) => new() { Data = data, Error = Error.None };
